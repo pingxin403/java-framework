@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--&lt;!&ndash;自动注入工厂&ndash;&gt;-->
+    <!--<bean id="jobFactory" class="com.payment.scheduled.JobFactory"/>-->
+
+    <!--&lt;!&ndash; 总配置 &ndash;&gt;-->
+    <!--<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+    <!--<property name="jobFactory" ref="jobFactory"></property>-->
+    <!--&lt;!&ndash; 加载 quartz.properties&ndash;&gt;-->
+    <!--<property name="configLocation" value="classpath:config/tes/quartz.properties"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash;第一次加载时启动&ndash;&gt;-->
+    <!--<bean id="jobService" class="com.payment.scheduled.task.JobService" init-method="loadJob"/>-->
+</beans>

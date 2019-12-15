@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userService" class="com.hyp.learn.spring.demo1.UserServiceImpl"/>
+
+    <!-- 创建service -->
+    <bean id="bookService" class="com.hyp.learn.spring.demo1.BookServiceImpl">
+        <property name="bookDao" ref="bookDao"/>
+    </bean>
+
+    <!-- 创建dao实例 -->
+    <bean id="bookDao" class="com.hyp.learn.spring.demo1.BookDaoImpl"/>
+</beans>
