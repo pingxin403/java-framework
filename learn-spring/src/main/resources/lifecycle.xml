@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:component-scan base-package="com.hyp.learn.spring.demo4"/>
+    <bean id="myBean" class="com.hyp.learn.spring.demo4.MyBean" init-method="myInitMethod"
+          destroy-method="mydestroyMethod">
+        <property name="name" value="平心"/>
+        <property name="description" value="lifecycle"/>
+    </bean>
+    <bean class="com.hyp.learn.spring.demo4.MyBeanPostProcessor"/>
+    <bean class="com.hyp.learn.spring.demo4.MyBeanFactoryPostProcessor"/>
+    <bean class="com.hyp.learn.spring.demo4.MyInstantiationAwareBeanPostProcessor"/>
+</beans>

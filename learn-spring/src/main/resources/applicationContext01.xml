@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="userService" class="com.hyp.learn.spring.demo1.UserServiceImpl"/>
 
@@ -13,4 +14,51 @@
 
     <!-- 创建dao实例 -->
     <bean id="bookDao" class="com.hyp.learn.spring.demo1.BookDaoImpl"/>
+
+
+    <!--dome2-->
+    <bean class="com.hyp.learn.spring.demo2.StealAxe" id="stealAxe"/>
+
+    <bean class="com.hyp.learn.spring.demo2.Steal" id="steal"/>
+    <bean class="com.hyp.learn.spring.demo2.Person" id="person">
+        <!--<property name="axe" ref="stealAxe"/>-->
+        <!--<property name="metal" ref="steal"/>-->
+        <constructor-arg ref="stealAxe" index="0"/>
+        <constructor-arg ref="steal" index="1"/>
+    </bean>
+
+    <!--dome3-->
+
+    <!--循环依赖-->
+    <!--<bean class="com.hyp.learn.spring.demo3.Book" id="book1">-->
+    <!--<constructor-arg name="author" ref="author1"/>-->
+    <!--<constructor-arg name="name" value="郭与于"/>-->
+    <!--</bean>-->
+    <!--<bean class="com.hyp.learn.spring.demo3.Author" id="author1">-->
+    <!--<constructor-arg name="name" value="王钢蛋"/>-->
+    <!--<constructor-arg name="book" ref="book1"/>-->
+    <!--</bean>-->
+
+    <!--改用属性注入-->
+    <bean class="com.hyp.learn.spring.demo3.Book" id="book2">
+        <property name="author" ref="author2"/>
+        <property name="name" value="郭与于"/>
+    </bean>
+    <bean class="com.hyp.learn.spring.demo3.Author" id="author2">
+        <property name="name" value="王钢蛋"/>
+        <property name="book" ref="book2"/>
+    </bean>
+
+    <!--工厂注入-->
+
+    <bean class="com.hyp.learn.spring.demo3.BookFactory" id="bookFactory"/>
+
+    <bean id="book3"
+          factory-bean="bookFactory" factory-method="create"/>
+
+    <bean class="com.hyp.learn.spring.demo3.BookFactory" id="book4"
+          factory-method="createBook"/>
+
+
+    <context:component-scan base-package="com.hyp.learn.spring"/>
 </beans>
