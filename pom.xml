@@ -22,7 +22,6 @@
         <module>learn-quartz</module>
         <module>learn-spring</module>
         <module>springmvc-annotation</module>
-        <module>security-springmvc</module>
     </modules>
 
     <dependencyManagement>
