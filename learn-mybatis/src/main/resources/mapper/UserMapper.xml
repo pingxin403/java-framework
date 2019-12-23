@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper:根标签，namespace：命名空间，该属性值通常设置为“包名+SQL映射文件名”,指定了唯一的命名空间; -->
+<mapper namespace="com.hyp.learn.mybatis.dao.UserMapper">
+    <!-- statement，内容：sql语句。id：唯一标识，随便写，在同一个命名空间下保持唯一
+ -->
+    <!--parameterType:定义输入参数的Java类型-->
+    <!--resultType:定义结果映射类型。-->
+
+
+    <!--1. #{ }：解析为一个 JDBC 预编译语句（prepared statement）的参数标记符。-->
+    <!--#{id}表示使用preparedstatement设置占位符号并将输入变量id传到sql。-->
+    <!--而“#{id}”表示该占位符待接收参数的名称为id。-->
+
+    <!-- ${ } 仅仅为一个纯碎的 string 替换，在动态 SQL 解析阶段将会进行变量替换。 -->
+    <!--${value}:取出参数名为value的值。将${value}占位符替换。-->
+    <!--注意:如果是取简单数量类型的参数,括号中的参数名称必须为value-->
+
+    <!-- 2. ${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中 -->
+
+    <!-- 3. 能使用 #{ } 的地方就用 #{ } -->
+    <!-- 4. 表名作为变量时，必须使用 ${ },这是因为，表名是字符串，使用 sql 占位符替换字符串时会带上单引号 ''，这会导致 sql 语法错误, 表名不能加单引号 ''（注意，反引号 ``是可以的）-->
+
+
+    <select id="findUserById" parameterType="Integer" resultType="User">
+        select *
+        from tb_user
+        where id = #{id}
+    </select>
+
+    <!--查询所有用户-->
+    <select id="selectAllUser" resultType="User">
+        select *
+        from tb_user
+    </select>
+
+    <select id="findUsersByName" parameterType="String" resultType="User">
+        select *
+        from tb_user
+        where username like '%${value}%'
+    </select>
+
+    <!--插入数据-->
+    <insert id="saveUser" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+
+
+        insert into tb_user(username, sex, birthday, address)
+        values (#{username}, #{sex}, #{birthday}, #{address});
+    </insert>
+
+    <!--修改用户-->
+    <update id="updateUser" parameterType="User">
+        update tb_user
+        set username=#{username},
+            sex=#{sex},
+            birthday=#{birthday},
+            address=#{address}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="Integer">
+        delete
+        from tb_user
+        where id = #{id}
+    </delete>
+
+    <!-- 一对多：查看某一用户及其关联的订单信息
+  注意：当关联查询出的列名相同，则需要使用别名区分  -->
+    <select id="findUserWithOrders" parameterType="Integer" resultMap="userWithOrdersResult">
+        select u.*,o.id as orders_id,o.number
+        from tb_user u,tb_orders o
+        where u.id = o.user_id
+          and u.id = #{id}
+    </select>
+
+    <resultMap type="User" id="userWithOrdersResult">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="address" column="address"/>
+        <!-- 一对多关联映射：collection
+            ofType表示属性集合中元素的类型，List<Orders>属性即Orders类 -->
+        <collection property="ordersList" ofType="Orders">
+            <id property="id" column="orders_id"/>
+            <result property="number" column="number"/>
+        </collection>
+    </resultMap>
+
+</mapper>
