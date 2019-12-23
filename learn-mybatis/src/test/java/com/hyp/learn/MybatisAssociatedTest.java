@@ -48,14 +48,14 @@ public class MybatisAssociatedTest {
     }
 
     /**
-     * 一对多
+     * 一对多，嵌套查询
      */
     @Test
     public void findUserTest(){
         // 1.通过工具类生成SqlSession对象
         SqlSession sqlSession = MybatisUtils.getSession();
         // 2.查询 id 为 1 的用户信息、
-        User user = sqlSession.selectOne("com.hyp.learn.mybatis.dao.UserMapper.findUserWithOrders", 1);
+        User user = sqlSession.selectOne("com.hyp.learn.mybatis.dao.UserMapper.findUserWithOrders1", 1);
         // 3.输出查询结果信息
         System.out.println(user);
         // 4.关闭SQlSession
