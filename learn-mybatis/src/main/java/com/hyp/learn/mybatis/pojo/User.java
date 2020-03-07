@@ -2,6 +2,7 @@ package com.hyp.learn.mybatis.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * hyp create at 19-12-22
  **/
 @Data
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String username;
     private Date birthday;

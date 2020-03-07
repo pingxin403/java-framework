@@ -22,7 +22,7 @@
     <!-- 嵌套结果:使用嵌套结果映射来处理重复的联合结果的子集  -->
     <select id="findPersonById2" parameterType="Integer"
             resultMap="IdCardWithPersonResult2">
-        select p.*,idcard.code
+        select p.*,idcard.id c_id,idcard.code c_code
         from tb_person p, tb_idcard idcard
         where p.card_id=idcard.id
           and p.id= #{id}
@@ -34,7 +34,7 @@
         <result property="sex" column="sex"/>
         <association property="card" javaType="IdCard">
             <id property="id" column="card_id"/>
-            <result property="code" column="code"/>
+            <result property="code" column="c_code"/>
         </association>
     </resultMap>
 

@@ -1,4 +1,4 @@
-package com.atguigu.controller;
+package com.hyp.learn.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

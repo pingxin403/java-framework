@@ -69,10 +69,9 @@
     <!-- 一对多：查看某一用户及其关联的订单信息
   注意：当关联查询出的列名相同，则需要使用别名区分  -->
     <select id="findUserWithOrders1" parameterType="Integer" resultMap="userWithOrdersResult1">
-        select u.*,o.id as orders_id,o.number
-        from tb_user u,tb_orders o
-        where u.id = o.user_id
-          and u.id = #{id}
+        select u.*
+        from tb_user u
+        where u.id = #{id}
     </select>
     <!-- 方式一：嵌套查询  -->
     <resultMap type="User" id="userWithOrdersResult1">
@@ -83,12 +82,13 @@
             ofType表示属性集合中元素的类型，List<Orders>属性即Orders类,
             column为Order的外键属性名 -->
         <collection property="ordersList" ofType="Orders"
-                    column="user_id" select="com.hyp.learn.mybatis.dao.OrderMapper.findOderById"/>
+                    column="id" select="com.hyp.learn.mybatis.dao.OrderMapper.findOderById"/>
     </resultMap>
 
     <select id="findUserWithOrders2" parameterType="Integer" resultMap="userWithOrdersResult2">
-        select u.*,o.id as orders_id,o.number
-        from tb_user u,tb_orders o
+        select u.*, o.id as orders_id, o.number
+        from tb_user u,
+             tb_orders o
         where u.id = o.user_id
           and u.id = #{id}
     </select>
@@ -104,6 +104,25 @@
             <id property="id" column="orders_id"/>
             <result property="number" column="number"/>
         </collection>
+    </resultMap>
+
+
+    <select id="findUserWithOrdersAndProduct" parameterType="Integer" resultMap="userWithOrdersAndProductResult">
+        select u.*
+        from tb_user u
+        where u.id = #{id}
+    </select>
+
+    <!-- 方式一：嵌套查询  -->
+    <resultMap type="User" id="userWithOrdersAndProductResult">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="address" column="address"/>
+        <!-- 一对多关联映射：collection
+            ofType表示属性集合中元素的类型，List<Orders>属性即Orders类,
+            column为Order的外键属性名 -->
+        <collection property="ordersList" ofType="Orders"
+                    column="id" select="com.hyp.learn.mybatis.dao.OrderMapper.findOrdersWithProduct"/>
     </resultMap>
 
 </mapper>

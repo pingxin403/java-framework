@@ -4,33 +4,105 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <!--https://mybatis.org/mybatis-3/zh/configuration.html-->
 
+
+    <!--
+            1、mybatis可以使用properties来引入外部properties配置文件的内容；
+            resource：引入类路径下的资源
+            url：引入网络路径或者磁盘路径下的资源
+          -->
     <properties resource="db.properties"/>
 
+
     <!--<settings>-->
-        <!--<setting name= "cacheEnabled" value="true" />-->
-        <!--<setting name= "lazyLoadingEnabled" value="true" />-->
-        <!--<setting name= "multipleResultSetsEnabled" value="true" />-->
-        <!--<setting name= "useColumnLabel" value="true" />-->
-        <!--<setting name= "useGeneratedKeys" value="true" />-->
-        <!--<setting name= "autoMappingBehavior" value="true" />-->
+    <!--<setting name= "cacheEnabled" value="true" />-->
+    <!--<setting name= "lazyLoadingEnabled" value="true" />-->
+    <!--<setting name= "multipleResultSetsEnabled" value="true" />-->
+    <!--<setting name= "useColumnLabel" value="true" />-->
+    <!--<setting name= "useGeneratedKeys" value="true" />-->
+    <!--<setting name= "autoMappingBehavior" value="true" />-->
     <!--</settings>-->
+    <!--
+		2、settings包含很多重要的设置项
+		setting:用来设置每一个设置项
+			name：设置项名
+			value：设置项取值
+	 -->
     <settings>
         <!-- 打开延迟加载开关  -->
         <setting name="lazyLoadingEnabled" value="true"/>
         <!-- 将积极加载改为消息加载，即按需加载   -->
         <setting name="aggressiveLazyLoading" value="false"/>
+        <!--下划线转驼峰-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--sql输出-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+
+        <setting name="jdbcTypeForNull" value="NULL"/>
+
+        <setting name="cacheEnabled" value="true"/>
+
     </settings>
 
+    <!--<settings>-->
+    <!--&lt;!&ndash;关闭延迟加载&ndash;&gt;-->
+    <!--<setting name="lazyLoadingEnabled" value="false"/>-->
+    <!--</settings>-->
+
+
+    <!-- 3、typeAliases：别名处理器：可以为我们的java类型起别名
+            别名不区分大小写
+    -->
     <!--将该包中所有实体类的简单类名指定为别名-->
     <typeAliases>
+        <!-- 1、typeAlias:为某个java类型起别名
+				type:指定要起别名的类型全类名;默认别名就是类名小写；employee
+				alias:指定新的别名
+		 -->
+        <!-- <typeAlias type="com.atguigu.mybatis.bean.Employee" alias="emp"/> -->
+
+        <!-- 2、package:为某个包下的所有类批量起别名
+                name：指定包名（为当前包以及下面所有的后代包的每一个类都起一个默认别名（类名小写），）
+        -->
         <package name="com.hyp.learn.mybatis.pojo"/>
+        <!-- 3、批量起别名的情况下，使用@Alias注解为某个类型指定新的别名 -->
     </typeAliases>
+
 
     <objectFactory type="com.hyp.learn.mybatis.config.MyObjectFactory">
         <property name="name" value="MyObjectFactory"/>
     </objectFactory>
+    <plugins>
+        <!--分页插件-->
+        <!--<plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+        <!--<property name="helperDialect" value="h2"/>-->
+        <!--</plugin>-->
 
+        <plugin interceptor="com.hyp.learn.mybatis.interceptor.MyPageInterceptor">
+
+        </plugin>
+
+        <plugin interceptor="com.hyp.learn.mybatis.interceptor.MyFirstPlugin">
+            <property name="username" value="root"/>
+            <property name="password" value="123456"/>
+        </plugin>
+        <plugin interceptor="com.hyp.learn.mybatis.interceptor.MySecondPlugin"/>
+    </plugins>
+
+    <!--
+		4、environments：环境们，mybatis可以配置多种环境 ,default指定使用某种环境。可以达到快速切换环境。
+			environment：配置一个具体的环境信息；必须有两个标签；id代表当前环境的唯一标识
+				transactionManager：事务管理器；
+					type：事务管理器的类型;JDBC(JdbcTransactionFactory)|MANAGED(ManagedTransactionFactory)
+						自定义事务管理器：实现TransactionFactory接口.type指定为全类名
+
+				dataSource：数据源;
+					type:数据源类型;UNPOOLED(UnpooledDataSourceFactory)
+								|POOLED(PooledDataSourceFactory)
+								|JNDI(JndiDataSourceFactory)
+					自定义数据源：实现DataSourceFactory接口，type是全类名
+		 -->
     <!-- 环境，可以配置多个，default：指定采用哪个环境 -->
     <environments default="development">
         <!-- id：唯一标识 -->
@@ -46,10 +118,62 @@
             </dataSource>
         </environment>
     </environments>
+
+    <!-- 5、databaseIdProvider：支持多数据库厂商的；
+		 type="DB_VENDOR"：VendorDatabaseIdProvider
+		 	作用就是得到数据库厂商的标识(驱动getDatabaseProductName())，mybatis就能根据数据库厂商标识来执行不同的sql;
+	DatabaseMetaData	 	MySQL，Oracle，SQL Server,xxxx
+	  -->
+    <databaseIdProvider type="DB_VENDOR">
+        <!-- 为不同的数据库厂商起别名 -->
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="H2" value="h2"/>
+    </databaseIdProvider>
+
+    <!-- 将我们写好的sql映射文件（EmployeeMapper.xml）一定要注册到全局配置文件（mybatis-config.xml）中 -->
+    <!-- 6、mappers：将sql映射注册到全局配置中 -->
     <mappers>
+
+        <!--
+			mapper:注册一个sql映射
+				注册配置文件
+				resource：引用类路径下的sql映射文件
+					mybatis/mapper/EmployeeMapper.xml
+				url：引用网路路径或者磁盘路径下的sql映射文件
+					file:///var/mappers/AuthorMapper.xml
+
+				注册接口
+				class：引用（注册）接口，
+					1、有sql映射文件，映射文件名必须和接口同名，并且放在与接口同一目录下；
+					2、没有sql映射文件，所有的sql都是利用注解写在接口上;
+					推荐：
+						比较重要的，复杂的Dao接口我们来写sql映射文件
+						不重要，简单的Dao接口为了开发快速可以使用注解；
+		-->
+        <!-- <mapper resource="mybatis/mapper/EmployeeMapper.xml"/> -->
+        <!-- <mapper class="com.hyp.learn.mybatis.dao.EmployeeMapperAnnotation"/> -->
+
+        <!-- 批量注册： -->
+        <!--<package name="com.hyp.learn.mybatis.dao"/>-->
+
+
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/PersonMapper.xml"/>
         <mapper resource="mapper/IdCardMapper.xml"/>
+        <mapper resource="mapper/OrderMapper.xml"/>
+        <mapper resource="mapper/ProductMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+
+        <mapper class="com.hyp.learn.mybatis.dao.EmployeeMapperAnnotation"/>
+
+        <mapper resource="mapper/EmployeeMapperPlus.xml"/>
+        <mapper resource="mapper/DepartmentMapper.xml"/>
+
+        <mapper resource="mapper/EmployeeMapperDynamicSQL.xml"/>
+
+
     </mappers>
 
 </configuration>
