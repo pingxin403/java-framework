@@ -24,6 +24,10 @@ public class SimpleChatClient {
         this.port = port;
     }
 
+    public static void main(String[] args) throws Exception {
+        new SimpleChatClient("localhost", 8080).run();
+    }
+
     public void run() throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
 
@@ -45,10 +49,6 @@ public class SimpleChatClient {
         } finally {
             group.shutdownGracefully();
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-        new SimpleChatClient("localhost", 8080).run();
     }
 
 }

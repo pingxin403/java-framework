@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Include in com.hyp.learn.netty.reactor
  * hyp create at 20-3-7
  **/
-public class Acceptor implements Runnable{
+public class Acceptor implements Runnable {
     private int port; // server socket port
     private Selector selector;
 
@@ -30,6 +30,7 @@ public class Acceptor implements Runnable{
         return this.port;
     }
 
+    @Override
     public void run() {
         while (true) {
 

@@ -15,13 +15,6 @@ import java.util.List;
 public class LiveDecoder extends ReplayingDecoder<LiveDecoder.LiveState> {
 
     Logger logger = LoggerFactory.getLogger(LiveDecoder.class);
-
-    public enum LiveState {
-        TYPE,
-        LENGTH,
-        CONTENT
-    }
-
     private LiveMessage message;
 
     public LiveDecoder() {
@@ -62,5 +55,11 @@ public class LiveDecoder extends ReplayingDecoder<LiveDecoder.LiveState> {
                 throw new IllegalStateException("invalid state:" + state);
         }
         logger.debug("end state:" + state + " list:" + list);
+    }
+
+    public enum LiveState {
+        TYPE,
+        LENGTH,
+        CONTENT
     }
 }

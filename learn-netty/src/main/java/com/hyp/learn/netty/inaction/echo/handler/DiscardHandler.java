@@ -8,6 +8,7 @@ import io.netty.util.ReferenceCountUtil;
 /**
  * 1.扩展 ChannelInboundHandlerAdapter
  * 2.ReferenceCountUtil.release() 来丢弃收到的信息
+ *
  * @author hyp
  * Project name is javaframework
  * Include in com.hyp.learn.netty.echo

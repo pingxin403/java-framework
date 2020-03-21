@@ -45,23 +45,17 @@ import java.util.Set;
  **/
 public class GroupChatServer {
 
-    private int port = 6666;
-
-
-    // 用于字符集编解码
-    private Charset charset = Charset.forName("UTF-8");
-
-    // 用于接收数据的缓冲区
-    private ByteBuffer rBuffer = ByteBuffer.allocate(1024);
-
-    // 用于发送数据的缓冲区
-    private ByteBuffer sBuffer = ByteBuffer.allocate(1024);
-
-    // 用于存放客户端SocketChannel集合
-    private Map<String, SocketChannel> clientMap = new HashMap<String, SocketChannel>();
-
     // 用于监听通道事件
     private static Selector selector;
+    private int port = 6666;
+    // 用于字符集编解码
+    private Charset charset = Charset.forName("UTF-8");
+    // 用于接收数据的缓冲区
+    private ByteBuffer rBuffer = ByteBuffer.allocate(1024);
+    // 用于发送数据的缓冲区
+    private ByteBuffer sBuffer = ByteBuffer.allocate(1024);
+    // 用于存放客户端SocketChannel集合
+    private Map<String, SocketChannel> clientMap = new HashMap<String, SocketChannel>();
 
     public GroupChatServer(int port) {
         this.port = port;
@@ -70,6 +64,11 @@ public class GroupChatServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        GroupChatServer server = new GroupChatServer(6666);
+        server.listen();
     }
 
     // 初始化服务器
@@ -153,10 +152,5 @@ public class GroupChatServer {
     private String getClientName(SocketChannel client) {
         Socket socket = client.socket();
         return "[" + socket.getInetAddress().toString().substring(1) + ":" + Integer.toHexString(client.hashCode()) + "]";
-    }
-
-    public static void main(String[] args) {
-        GroupChatServer server = new GroupChatServer(6666);
-        server.listen();
     }
 }

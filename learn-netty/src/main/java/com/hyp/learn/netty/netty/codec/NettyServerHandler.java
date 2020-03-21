@@ -29,7 +29,6 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<StudentPOJO.
     }
 
 
-
 //    //读取数据实际(这里我们可以读取客户端发送的消息)
 //    /*
 //    1. ChannelHandlerContext ctx:上下文对象, 含有 管道pipeline , 通道channel, 地址

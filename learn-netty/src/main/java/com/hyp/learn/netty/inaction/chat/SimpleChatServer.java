@@ -21,6 +21,10 @@ public class SimpleChatServer {
         this.port = port;
     }
 
+    public static void main(String[] args) throws Exception {
+        new SimpleChatServer(8080).run();
+    }
+
     public void run() throws Exception {
         //NioEventLoopGroup是用来处理IO操作的多线程事件循环器
         //boss用来接收进来的连接
@@ -56,10 +60,6 @@ public class SimpleChatServer {
             System.out.println(("SimpleChatServer 关闭了"));
         }
 
-    }
-
-    public static void main(String[] args) throws Exception {
-        new SimpleChatServer(8080).run();
     }
 
 }

@@ -36,18 +36,14 @@ import java.util.Set;
  **/
 public class GroupChatClient {
 
-    // 服务端地址
-    private InetSocketAddress SERVER;
-
-    // 用于接收数据的缓冲区
-    private ByteBuffer rBuffer = ByteBuffer.allocate(1024);
-
-    // 用于发送数据的缓冲区
-    private ByteBuffer sBuffer = ByteBuffer.allocate(1024);
-
     // 用于监听通道事件
     private static Selector selector;
-
+    // 服务端地址
+    private InetSocketAddress SERVER;
+    // 用于接收数据的缓冲区
+    private ByteBuffer rBuffer = ByteBuffer.allocate(1024);
+    // 用于发送数据的缓冲区
+    private ByteBuffer sBuffer = ByteBuffer.allocate(1024);
     // 用于编/解码 buffer
     private Charset charset = Charset.forName("UTF-8");
 
@@ -58,6 +54,10 @@ public class GroupChatClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        new GroupChatClient(6666);
     }
 
     // 初始化客户端
@@ -119,10 +119,5 @@ public class GroupChatClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public static void main(String[] args) {
-        new GroupChatClient(6666);
     }
 }

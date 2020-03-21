@@ -24,6 +24,8 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * Handler implementation for the echo server.
  */
@@ -140,7 +142,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buf = (ByteBuf) msg;
         byte[] bytes = new byte[buf.readableBytes()];
         buf.readBytes(bytes);
-        String body = new String(bytes, "UTF-8");
+        String body = new String(bytes, StandardCharsets.UTF_8);
         //休眠10秒
         Thread.sleep(10 * 1000);
         System.out.println("普通调用方式的 线程是=" + Thread.currentThread().getName());

@@ -9,5 +9,5 @@ package com.hyp.learn.netty.inaction.esp01.reactor;
 public enum EventType {
     ACCEPT,
     READ,
-    WRITE;
+    WRITE
 }

@@ -9,6 +9,7 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
  * 程序,在这种情况下就是 FrameHandler
  * 2. 添加 FrameHandler 用于接收帧
  * 3. 每次调用都需要传递一个单帧的内容
+ *
  * @author hyp
  * Project name is javaframework
  * Include in com.hyp.learn.netty.codec
@@ -23,8 +24,9 @@ public class LineBasedHandlerInitializer extends ChannelInitializer<Channel> {
 //1
 //2
     }
+
     public static final class FrameHandler extends SimpleChannelInboundHandler<ByteBuf
-                > {
+            > {
         @Override
         public void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
 //3

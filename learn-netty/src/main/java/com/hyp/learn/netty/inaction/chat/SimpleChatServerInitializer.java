@@ -10,6 +10,7 @@ import io.netty.handler.codec.string.StringEncoder;
 
 /**
  * SimpleChatServerInitializer 用来增加多个的handler处理类到ChannelPipeline上,ChannelPipeline简单理解就可以看成是一个handler容器，包括编码、解码、SimpleChatServerHandler等。
+ *
  * @author hyp
  * Project name is javaframework
  * Include in com.hyp.learn.netty.chat

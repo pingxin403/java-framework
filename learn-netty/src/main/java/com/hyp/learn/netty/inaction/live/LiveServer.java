@@ -14,9 +14,8 @@ import org.slf4j.LoggerFactory;
  */
 public class LiveServer {
 
-    private final int port;
-
     private static Logger logger = LoggerFactory.getLogger(LiveServer.class);
+    private final int port;
 
     public LiveServer(int port) {
         this.port = port;

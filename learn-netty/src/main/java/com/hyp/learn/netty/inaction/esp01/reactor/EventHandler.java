@@ -9,6 +9,7 @@ package com.hyp.learn.netty.inaction.esp01.reactor;
 public abstract class EventHandler {
 
     private InputSource source;
+
     public abstract void handle(Event event);
 
     public InputSource getSource() {

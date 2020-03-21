@@ -23,7 +23,7 @@ public class GroupChatClient {
 
         selector = Selector.open();
         //连接服务器
-        socketChannel = socketChannel.open(new InetSocketAddress("127.0.0.1", PORT));
+        socketChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1", PORT));
         //设置非阻塞
         socketChannel.configureBlocking(false);
         //将channel 注册到selector
@@ -34,6 +34,36 @@ public class GroupChatClient {
 
     }
 
+    public static void main(String[] args) throws Exception {
+
+        //启动我们客户端
+        GroupChatClient chatClient = new GroupChatClient();
+
+        //启动一个线程, 每个3秒，读取从服务器发送数据
+        new Thread() {
+            @Override
+            public void run() {
+
+                while (true) {
+                    chatClient.readInfo();
+                    try {
+                        sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+
+        //发送数据给服务器端
+        Scanner scanner = new Scanner(System.in);
+
+        while (scanner.hasNextLine()) {
+            String s = scanner.nextLine();
+            chatClient.sendInfo(s);
+        }
+    }
+
     //向服务器发送消息
     public void sendInfo(String info) {
 
@@ -41,7 +71,7 @@ public class GroupChatClient {
 
         try {
             socketChannel.write(ByteBuffer.wrap(info.getBytes()));
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -52,16 +82,16 @@ public class GroupChatClient {
         try {
 
             int readChannels = selector.select();
-            if(readChannels > 0) {//有可以用的通道
+            if (readChannels > 0) {//有可以用的通道
 
                 Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
                 while (iterator.hasNext()) {
 
                     SelectionKey key = iterator.next();
-                    if(key.isReadable()) {
+                    if (key.isReadable()) {
                         //得到相关的通道
-                       SocketChannel sc = (SocketChannel) key.channel();
-                       //得到一个Buffer
+                        SocketChannel sc = (SocketChannel) key.channel();
+                        //得到一个Buffer
                         ByteBuffer buffer = ByteBuffer.allocate(1024);
                         //读取
                         sc.read(buffer);
@@ -76,37 +106,8 @@ public class GroupChatClient {
 
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        //启动我们客户端
-        GroupChatClient chatClient = new GroupChatClient();
-
-        //启动一个线程, 每个3秒，读取从服务器发送数据
-        new Thread() {
-            public void run() {
-
-                while (true) {
-                    chatClient.readInfo();
-                    try {
-                        Thread.currentThread().sleep(3000);
-                    }catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
-
-        //发送数据给服务器端
-        Scanner scanner = new Scanner(System.in);
-
-        while (scanner.hasNextLine()) {
-            String s = scanner.nextLine();
-            chatClient.sendInfo(s);
         }
     }
 
