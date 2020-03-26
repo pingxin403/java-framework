@@ -34,7 +34,7 @@ public abstract class BaseTest {
     protected User u3;
     protected User u4;
 
-    @Before
+//    @Before
     public void setUp() {
         JdbcTemplateUtils.jdbcTemplate().update("delete from sys_users");
         JdbcTemplateUtils.jdbcTemplate().update("delete from sys_roles");
