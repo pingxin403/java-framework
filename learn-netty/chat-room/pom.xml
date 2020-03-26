@@ -12,7 +12,7 @@
     <groupId>com.hyp.learn</groupId>
     <artifactId>chat-room</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>chat-room Maven Webapp</name>
     <!-- FIXME change it to the project's website -->

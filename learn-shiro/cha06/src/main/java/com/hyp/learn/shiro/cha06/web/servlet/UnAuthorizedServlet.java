@@ -1,4 +1,4 @@
-package com.hyp.learn.shiro.cha07.web.servlet;
+package com.hyp.learn.shiro.cha06.web.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

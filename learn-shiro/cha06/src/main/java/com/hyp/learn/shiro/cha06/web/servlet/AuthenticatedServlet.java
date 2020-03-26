@@ -1,4 +1,4 @@
-package com.hyp.learn.shiro.cha07.web.servlet;
+package com.hyp.learn.shiro.cha06.web.servlet;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -11,13 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "roleServlet", urlPatterns = "/role")
-public class RoleServlet extends HttpServlet {
+@WebServlet(name = "authenticatedServlet", urlPatterns = "/authenticated")
+public class AuthenticatedServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Subject subject = SecurityUtils.getSubject();
-        subject.checkRole("admin");
-        req.getRequestDispatcher("/WEB-INF/jsp/hasRole.jsp").forward(req, resp);
+        if (subject.isAuthenticated()) {
+            req.getRequestDispatcher("/WEB-INF/jsp/authenticated.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        }
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.hyp.learn.shiro.cha07.web.servlet;
+package com.hyp.learn.shiro.cha06.web.servlet;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
