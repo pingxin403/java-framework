@@ -28,6 +28,7 @@
         <module>learn-ActiveMQ</module>
         <module>learn-netty</module>
         <module>learn-rabbitMQ</module>
+        <module>learn-shiro</module>
     </modules>
 
     <dependencyManagement>
